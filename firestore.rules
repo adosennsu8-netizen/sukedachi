@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function callData(callId) { return get(/databases/$(database)/documents/calls/$(callId)).data; }
+    // ヘルプを出した本人と、通知を受けた人だけがチャットに入れる
+    function isMember(callId) { return signedIn() && request.auth.uid in callData(callId).members; }
+
+    // 本人のみ閲覧。書き込みはサーバー経由のみ
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /calls/{callId} {
+      allow read: if signedIn()
+        && (request.auth.uid == resource.data.ownerUid || request.auth.uid in resource.data.members);
+      allow write: if false;
+
+      match /messages/{mid} {
+        allow read: if isMember(callId);
+        // テキストのみクライアントから投稿可（なりすまし・解決後の投稿を防止）
+        allow create: if isMember(callId)
+          && request.resource.data.keys().hasOnly(['type', 'uid', 'name', 'text', 'createdAt'])
+          && request.resource.data.type == 'text'
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.name == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.name
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 500
+          && request.resource.data.createdAt == request.time
+          && callData(callId).status == 'open';
+        allow update, delete: if false;
+      }
+
+      match /responders/{rid} {
+        allow read: if isMember(callId);
+        allow write: if false;
+      }
+    }
+
+    // 通知判定用の地点はサーバーのみ
+    match /points/{pid} {
+      allow read, write: if false;
+    }
+
+    // 統計は誰でも閲覧可
+    match /stats/{pref} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

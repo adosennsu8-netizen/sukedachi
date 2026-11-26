@@ -1,0 +1,102 @@
+:root {
+  color-scheme: light;
+  --ink: #1b1f3b;
+  --paper: #ffffff;
+  --soft: #f5f5f7;
+  --red: #c8102e;
+  --line: #dcdce2;
+  --muted: #6b6b6b;
+  --ok: #1f7a4d;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; line-height: 1.6; }
+a { color: inherit; }
+.wrap { max-width: 520px; margin: 0 auto; padding: 16px 16px 40px; min-height: 100dvh; }
+.center { min-height: 70dvh; display: grid; place-items: center; text-align: center; }
+.muted { color: var(--muted); font-size: 14px; }
+.err { color: var(--red); font-weight: 700; }
+.ok { color: var(--ok); font-weight: 700; }
+
+.brand { text-align: center; margin: 8px 0 24px; }
+.brand h1 { font-size: 34px; letter-spacing: .3em; margin: 0; }
+.brand p { margin: 4px 0 0; font-weight: 700; color: var(--red); letter-spacing: .15em; }
+
+.card { background: var(--soft); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+.card h2 { font-size: 16px; margin: 0 0 8px; }
+
+.btn { display: block; width: 100%; border: 0; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 700;
+  background: #fff; color: var(--ink); border: 1.5px solid var(--line); text-align: center; text-decoration: none; cursor: pointer; }
+.btn:disabled { opacity: .5; }
+.btn.red { background: var(--red); color: #fff; border-color: var(--red); }
+.btn.ghost { background: #fff; color: var(--ink); border: 2px solid var(--ink); }
+.btn.green { background: var(--ok); color: #fff; border-color: var(--ok); }
+.row { display: flex; gap: 10px; }
+.row > * { flex: 1; }
+.stack > * + * { margin-top: 10px; }
+
+.help-btn { display: grid; place-items: center; width: 220px; height: 220px; margin: 24px auto; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e8304a, var(--red) 60%, #8e0b20); color: #fff; font-size: 36px;
+  font-weight: 900; letter-spacing: .2em; text-decoration: none; box-shadow: 0 12px 30px rgba(200,16,46,.35); }
+.help-btn span { display: flex; flex-direction: column; align-items: center; }
+.help-btn small { font-size: 13px; letter-spacing: .05em; font-weight: 700; margin-top: 4px; }
+
+input[type=text], textarea { width: 100%; padding: 12px; font-size: 16px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+label.check { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; font-weight: 700; }
+label.check input { width: 22px; height: 22px; margin-top: 2px; }
+
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.choice { padding: 16px 8px; border: 2px solid var(--line); border-radius: 12px; background: #fff; font-weight: 700; font-size: 15px; cursor: pointer; }
+.choice.on { border-color: var(--red); background: #fdeef0; color: var(--red); }
+
+.status { display: flex; justify-content: space-between; align-items: center; }
+.badge { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 99px; background: var(--red); color: #fff; }
+.badge.done { background: var(--ok); }
+.count { font-size: 28px; font-weight: 900; color: var(--red); }
+
+.chat { display: flex; flex-direction: column; gap: 8px; max-height: 45dvh; overflow-y: auto; padding: 4px; }
+.msg { max-width: 85%; padding: 8px 12px; border-radius: 12px; background: #fff; border: 1px solid var(--line); font-size: 15px; word-break: break-word; }
+.msg.me { align-self: flex-end; background: #fdeef0; color: var(--ink); border-color: #f3c3cb; }
+.msg.sys { align-self: center; background: transparent; border: 0; color: var(--muted); font-size: 13px; text-align: center; }
+.msg.loc { align-self: center; background: #fff7e0; border-color: #e9c46a; font-weight: 700; text-align: center; }
+.msg .who { font-size: 11px; opacity: .7; display: block; }
+.composer { display: flex; gap: 8px; margin-top: 10px; }
+.composer input { flex: 1; }
+.composer .btn { width: auto; padding: 0 18px; }
+
+.rules { margin: 0; padding-left: 20px; font-size: 14px; }
+.nav { display: flex; justify-content: center; gap: 20px; margin-top: 24px; font-size: 14px; }
+
+table.stats { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.stats th, table.stats td { padding: 8px 4px; border-bottom: 1px solid var(--line); text-align: right; }
+table.stats th:first-child, table.stats td:first-child { text-align: left; }
+
+.link { background: none; border: 0; text-decoration: underline; cursor: pointer; padding: 10px; color: var(--muted); font-size: 14px; display: block; margin: 0 auto; }
+textarea { width: 100%; padding: 10px; font-size: 14px; border: 1px solid var(--line); border-radius: 10px; }
+
+/* 長押しボタン */
+.btn.hold { position: relative; overflow: hidden; user-select: none; -webkit-user-select: none; touch-action: none; }
+.hold-fill { position: absolute; inset: 0; width: 0; background: rgba(0,0,0,.25); }
+.btn.hold.on .hold-fill { width: 100%; transition: width 2s linear; }
+
+/* 向かっている／到着 */
+.tally { display: flex; gap: 10px; margin-top: 10px; }
+.tally > div { flex: 1; text-align: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 6px; }
+.tally small { display: block; font-size: 12px; color: var(--muted); font-weight: 700; }
+.count.arrived { color: var(--ok); }
+.codebox { margin-top: 10px; padding: 8px 12px; border: 2px dashed var(--red); border-radius: 10px; text-align: center; font-weight: 700; }
+.codebox strong { font-size: 26px; letter-spacing: .2em; margin-left: 8px; color: var(--red); }
+
+/* 助太刀証 */
+.badge-screen { position: fixed; inset: 0; z-index: 50; background: #111; display: grid; place-items: center; align-content: center; gap: 14px; padding: 20px; }
+.badge-card { position: relative; overflow: hidden; width: min(88vw, 360px); background: #fff; border-radius: 18px; padding: 34px 20px 22px; text-align: center; box-shadow: 0 0 0 4px var(--red); }
+.badge-band { position: absolute; left: 0; right: 0; top: 0; height: 14px;
+  background: repeating-linear-gradient(90deg, var(--red) 0 24px, #fff 24px 36px); background-size: 72px 14px; animation: band 1.2s linear infinite; }
+@keyframes band { to { background-position: 72px 0; } }
+.badge-kind { margin: 0; font-size: 30px; font-weight: 900; letter-spacing: .3em; color: var(--red); }
+.badge-name { margin: 6px 0 14px; font-size: 22px; font-weight: 700; }
+.badge-label { margin: 0; font-size: 13px; color: var(--muted); font-weight: 700; }
+.badge-code { margin: 0; font-size: 64px; font-weight: 900; letter-spacing: .15em; line-height: 1.1; }
+.badge-clock { margin: 10px 0 6px; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.badge-note { margin: 0; font-size: 12px; color: var(--muted); }
+.badge-close { margin: 0; color: #aaa; font-size: 13px; }
